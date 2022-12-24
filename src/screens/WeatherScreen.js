@@ -46,9 +46,11 @@ const WeatherScreen = () => {
               uri: `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`,
             }}
           />
-          <Text>Current Weather in {weatherData.name}</Text>
-          <Text> Current Temp {weatherData.main.temp}</Text>
-          <Text>Feels Like {weatherData.main.feels_like}</Text>
+          <View style={styles.desc}>
+            <Text>Current Weather in {weatherData.name}</Text>
+            <Text> Current Temp {weatherData.main.temp}</Text>
+            <Text>Feels Like {weatherData.main.feels_like}</Text>
+          </View>
         </View>
       )}
     </View>
@@ -60,18 +62,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "orange",
   },
   Image: {
     width: 200,
     height: 200,
-    backgroundColor: "red",
   },
   weatherContainer: {
     margin: 20,
-    backgroundColor: "yellow",
     alignItems: "center",
+    padding: 20,
+  },
+  desc: {
     margin: 20,
+    alignItems: "center",
+    padding: 20,
   },
 });
 
