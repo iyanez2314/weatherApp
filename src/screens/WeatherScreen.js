@@ -1,34 +1,44 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import SearchBar from "../components/SearchBar";
-import useResults from "../hooks/useResults";
-import WeatherCard from "../components/WeatherCard";
 
 const WeatherScreen = () => {
-  const [userInput, setUserInput] = useState("");
-  const [data, setData] = useState([]);
-  //   const [data, fetchApi] = useResults(userInput);
-  const baseURL = ` https://api.openweathermap.org/data/2.5/weather?q=denver&appid=3db91534e3cc8d2c1467e2b5fadfe168`;
+  const [weatherData, setWeatherData] = useState({});
+  const [isFetching, setIsFetching] = useState(false);
+
+  const URL = "https://api.openweathermap.org/data/2.5/weather";
 
   const fetchWeather = async () => {
-    const data = await fetch(baseURL).then((response) => response.json());
-    setData(data);
-    console.log(data);
+    try {
+      const response = await axios.get(URL, {
+        params: {
+          q: "Denver",
+          appid: "3db91534e3cc8d2c1467e2b5fadfe168",
+        },
+      });
+      setWeatherData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     fetchWeather();
   }, []);
 
+  if (!weatherData) {
+    return (
+      <View>
+        <Text>Fetching....</Text>
+      </View>
+    );
+  }
+
   return (
     <View>
       <Text>Weather screen</Text>
-      <SearchBar
-        onSearch={() => fetchApi()}
-        userInput={userInput}
-        onUserInput={setUserInput}
-      />
-      {/* {data.length === 0 ? null : <WeatherCard WeatherCardData={data} />} */}
+      <Text></Text>
+      <Text>Temp: {weatherData.main.temp}</Text>
     </View>
   );
 };
